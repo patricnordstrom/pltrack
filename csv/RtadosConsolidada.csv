@@ -1,0 +1,25 @@
+﻿Accounts;Parent;Bold;Background;FontStyle;LetterColor;Align;Size;Comment;Exp1Background;Exp1LetterColor;Exp2Background;Exp2LetterColor;Exp3Background;Exp3LetterColor;Exp4Background;Exp4LetterColor;Exp5Background;Exp5LetterColor;Exp6Background;Exp6LetterColor;Exp7Background;Exp7LetterColor;Exp8Background;Exp8LetterColor;Exp9Background;Exp9LetterColor
+Ventas energía;Margen Energía;;;;rgb(3,65,101);;;;;;;;;;;;;;;;;;;;;
+Aprovisionamientos energía;Margen Energía;;;;rgb(3,65,101);;;;;;;;;;;;;;;;;;;;;
+Margen Energía;Margen de Contribución;<bold>;;;rgb(3,65,101);;;;;;;;;;;;;;;;;;;;;
+Otras ventas;Resto Margen;;;;rgb(3,65,101);;;;;;;;;;;;;;;;;;;;;
+Otros aprovisionamientos;Resto Margen;;;;rgb(3,65,101);;;;;;;;;;;;;;;;;;;;;
+Resto Margen;Margen de Contribución;<bold>;;;rgb(3,65,101);;;;;;;;;;;;;;;;;;;;;
+Margen de Contribución;EBITDA;<bold>;;;rgb(224,167,75);;;;rgb(125,154,172);rgb(3,65,101);rgb(185,201,209);rgb(3,65,101);rgb(185,201,209);rgb(3,65,101);rgb(3,65,101);<white>;rgb(3,65,101);<white>;rgb(185,201,209);rgb(3,65,101);;;;;;
+Gastos de personal neto;EBITDA;;;;rgb(3,65,101);;;;;;;;;;;;;;;;;;;;;
+Tributos;EBITDA;;;;rgb(3,65,101);;;;;;;;;;;;;;;;;;;;;
+Servicios exteriores;EBITDA;;;;rgb(3,65,101);;;;;;;;;;;;;;;;;;;;;
+Otros conceptos;EBITDA;;;;rgb(3,65,101);;;;;;;;;;;;;;;;;;;;;
+EBITDA;RESULTADO DE EXPLOTACIÓN;<bold>;;;rgb(224,167,75);;;;rgb(125,154,172);rgb(3,65,101);rgb(185,201,209);rgb(3,65,101);rgb(185,201,209);rgb(3,65,101);rgb(3,65,101);<white>;rgb(3,65,101);<white>;rgb(185,201,209);rgb(3,65,101);;;;;;
+Amortización y deterioro;RESULTADO DE EXPLOTACIÓN;;;;rgb(3,65,101);;;;;;;;;;;;;;;;;;;;;
+Provisiones morosidad;RESULTADO DE EXPLOTACIÓN;;;;rgb(3,65,101);;;;;;;;;;;;;;;;;;;;;
+Otros resultados;RESULTADO DE EXPLOTACIÓN;;;;rgb(3,65,101);;;;;;;;;;;;;;;;;;;;;
+RESULTADO DE EXPLOTACIÓN;RESULTADO ANTES IMPUESTOS;<bold>;;;rgb(224,167,75);;;;rgb(125,154,172);rgb(3,65,101);rgb(185,201,209);rgb(3,65,101);rgb(185,201,209);rgb(3,65,101);rgb(3,65,101);<white>;rgb(3,65,101);<white>;rgb(185,201,209);rgb(3,65,101);;;;;;
+Resultado financiero;RESULTADO ANTES IMPUESTOS;;;;rgb(3,65,101);;;;;;;;;;;;;;;;;;;;;
+Resultado método participación;RESULTADO ANTES IMPUESTOS;;;;rgb(3,65,101);;;;;;;;;;;;;;;;;;;;;
+RESULTADO ANTES IMPUESTOS;RTDO. OPERACIONES CONTINUADAS;<bold>;;;rgb(224,167,75);;;;rgb(125,154,172);rgb(3,65,101);rgb(185,201,209);rgb(3,65,101);rgb(185,201,209);rgb(3,65,101);rgb(3,65,101);<white>;rgb(3,65,101);<white>;rgb(185,201,209);rgb(3,65,101);;;;;;
+Impuesto sobre sociedades;RTDO. OPERACIONES CONTINUADAS;;;;rgb(3,65,101);;;;;;;;;;;;;;;;;;;;;
+RTDO. OPERACIONES CONTINUADAS;RESULTADO NETO;<bold>;;;rgb(224,167,75);;;;rgb(125,154,172);rgb(3,65,101);rgb(185,201,209);rgb(3,65,101);rgb(185,201,209);rgb(3,65,101);rgb(3,65,101);<white>;rgb(3,65,101);<white>;rgb(185,201,209);rgb(3,65,101);;;;;;
+Resultado operaciones interrumpidas;RESULTADO NETO;;;;rgb(3,65,101);;;;;;;;;;;;;;;;;;;;;
+Participaciones no dominantes;RESULTADO NETO;;;;rgb(3,65,101);;;;;;;;;;;;;;;;;;;;;
+RESULTADO NETO;;<bold>;;;rgb(224,167,75);;;;rgb(125,154,172);rgb(3,65,101);rgb(185,201,209);rgb(3,65,101);rgb(185,201,209);rgb(3,65,101);rgb(3,65,101);<white>;rgb(3,65,101);<white>;rgb(185,201,209);rgb(3,65,101);;;;;;

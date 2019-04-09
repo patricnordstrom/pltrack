@@ -1,0 +1,8 @@
+﻿Accounts;Parent;Bold;Background;FontStyle;LetterColor;Align;Size;Comment;Exp1Background;Exp1LetterColor;Exp2Background;Exp2LetterColor;Exp3Background;Exp3LetterColor;Exp4Background;Exp4LetterColor;Exp5Background;Exp5LetterColor;Exp6Background;Exp6LetterColor;Exp7Background;Exp7LetterColor;Exp8Background;Exp8LetterColor;Exp9Background;Exp9LetterColor
+Puntos de suministro GNF;;<bold>;;;rgb(224,167,75);;;;rgb(125,154,172);rgb(3,65,101);rgb(125,154,172);rgb(3,65,101);rgb(125,154,172);rgb(3,65,101);;rgb(3,65,101);;rgb(3,65,101);;rgb(3,65,101);;;;;;
+Incremento neto puntos suministro;;<bold>;;;rgb(3,65,101);;;;rgb(125,154,172);rgb(3,65,101);rgb(125,154,172);rgb(3,65,101);rgb(125,154,172);rgb(3,65,101);;rgb(3,65,101);;rgb(3,65,101);;rgb(3,65,101);;;;;;
+Puestas en Servicio;;<bold>;;;rgb(3,65,101);;;;;rgb(3,65,101);rgb(185,201,209);rgb(3,65,101);rgb(185,201,209);rgb(3,65,101);rgb(185,201,209);rgb(3,65,101);;rgb(3,65,101);;rgb(3,65,101);;;;;;
+Puestas en Servicio GN;;<bold>;;;rgb(3,65,101);;;;;;;;;;;;;;;;;;;;;
+Transformaciones GLP;;;;;rgb(3,65,101);;;;;;;;;;;;;;;;;;;;;
+Bajas suministro GN;;<bold>;;;rgb(3,65,101);;;;;rgb(3,65,101);rgb(185,201,209);rgb(3,65,101);rgb(185,201,209);rgb(3,65,101);rgb(185,201,209);rgb(3,65,101);;rgb(3,65,101);;rgb(3,65,101);;;;;;
+Cuota distribución PDS;;<bold>;;;rgb(224,167,75);;;;;rgb(3,65,101);;rgb(3,65,101);;rgb(3,65,101);;rgb(3,65,101);;rgb(3,65,101);;rgb(3,65,101);;;;;;

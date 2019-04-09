@@ -3,7 +3,8 @@
 	"description" : "Formatted table for P&L reports",
 	"icon" : "table",
 	"type" : "visualization",
-	"version": "1.0",
+	"version": "3.0",
+	"updated": "25-dec-2018",
 	"preview" : "table",
 	"author": "Ivan Felipe - QlikTech Iberia"
 }

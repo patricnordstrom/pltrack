@@ -1,0 +1,27 @@
+﻿Accounts;Parent;Bold;Background;FontStyle;LetterColor;Align;Size;Comment;Exp1Background;Exp1LetterColor;Exp2Background;Exp2LetterColor;Exp3Background;Exp3LetterColor;Exp4Background;Exp4LetterColor;Exp5Background;Exp5LetterColor;Exp6Background;Exp6LetterColor;Exp7Background;Exp7LetterColor;Exp8Background;Exp8LetterColor;Exp9Background;Exp9LetterColor
+TOTAL ACTIVO;;<bold>;rgb(185,201,209);;rgb(63,100,131);;;;rgb(144,168,182);;rgb(185,201,209);;rgb(144,168,182);;rgb(185,201,209);;;;;;;;;;;
+Inmovilizado material;TOTAL ACTIVO;;;;rgb(63,100,131);;;;;;;;;;;;;;;;;;;;;
+Inmovilizado intangible;TOTAL ACTIVO;;;;rgb(63,100,131);;;;;;;;;;;;;;;;;;;;;
+Fondo de comercio;Inmovilizado intangible;;;;rgb(63,100,131);;;;;;;;;;;;;;;;;;;;;
+Otro inmovilizado intangible;Inmovilizado intangible;;;;rgb(63,100,131);;;;;;;;;;;;;;;;;;;;;
+Inversión contabilizada método participación;TOTAL ACTIVO;;;;rgb(63,100,131);;;;;;;;;;;;;;;;;;;;;
+Otros activos no corrientes;TOTAL ACTIVO;;;;rgb(63,100,131);;;;;;;;;;;;;;;;;;;;;
+Activos corrietes;TOTAL ACTIVO;;;;rgb(63,100,131);;;;;;;;;;;;;;;;;;;;;
+Activos no corrientes mantenidos para la venta;Activos corrietes;;;;rgb(63,100,131);;;;;;;;;;;;;;;;;;;;;
+Activos corrientes;Activos corrietes;;;;rgb(63,100,131);;;;;;;;;;;;;;;;;;;;;
+Activos corrientes operativos;Activos corrientes;;;;rgb(63,100,131);;;;;;;;;;;;;;;;;;;;;
+Otros activos corrientes;Activos corrientes;;;;rgb(63,100,131);;;;;;;;;;;;;;;;;;;;;
+Efectivos y otros medios líquidos;Activos corrietes;;;;rgb(63,100,131);;;;;;;;;;;;;;;;;;;;;
+TOTAL PASIVO;;<bold>;rgb(185,201,209);;rgb(63,100,131);;;;rgb(144,168,182);;rgb(185,201,209);;rgb(144,168,182);;rgb(185,201,209);;;;;;;;;;;
+Total Patrimonio;TOTAL PASIVO;;;;rgb(63,100,131);;;;;;;;;;;;;;;;;;;;;
+Patrimonio atribuido a la sociedad dominante;Total Patrimonio;;;;rgb(63,100,131);;;;;;;;;;;;;;;;;;;;;
+Participaciones no dominantes;Total Patrimonio;;;;rgb(63,100,131);;;;;;;;;;;;;;;;;;;;;
+Deuda financiera;TOTAL PASIVO;;;;rgb(63,100,131);;;;;;;;;;;;;;;;;;;;;
+Otros pasivos no corrientes;TOTAL PASIVO;;;;rgb(63,100,131);;;;;;;;;;;;;;;;;;;;;
+Pasivos no corrientes mantenidos para la venta;TOTAL PASIVO;;;;rgb(63,100,131);;;;;;;;;;;;;;;;;;;;;
+Otros pasivos corrientes;TOTAL PASIVO;;;;rgb(63,100,131);;;;;;;;;;;;;;;;;;;;;
+Pasivos corrientes operativos;Otros pasivos corrientes;;;;rgb(63,100,131);;;;;;;;;;;;;;;;;;;;;
+Otros pasivos corrientes;Otros pasivos corrientes;;;;rgb(63,100,131);;;;;;;;;;;;;;;;;;;;;
+DEUDA FINACIERA NETA;;<bold>;rgb(185,201,209);;rgb(63,100,131);;;;rgb(144,168,182);;rgb(185,201,209);;rgb(144,168,182);;rgb(0,0,0);rgb(0,0,0);;;;;;;;;;
+% Endeudamiento;;<bold>;rgb(185,201,209);;rgb(63,100,131);;;;rgb(144,168,182);;rgb(185,201,209);;rgb(144,168,182);;rgb(0,0,0);rgb(0,0,0);;;;;;;;;;
+FONDO DE MANIOBRA OPERATIVO;;<bold>;rgb(185,201,209);;rgb(63,100,131);;;;rgb(144,168,182);;rgb(185,201,209);;rgb(144,168,182);;rgb(0,0,0);rgb(0,0,0);;;;;;;;;;
