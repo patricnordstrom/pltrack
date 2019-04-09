@@ -4,7 +4,12 @@
 	z-index:110;
 }
 .icon-xls{
-    height:30px;
+    width:15px;
+    opacity:.5;
+}
+.icon-xls:hover{
+    width:30px;
+    opacity:1;
 }
 .icon-pdf{
     height:30px;
@@ -17,16 +22,12 @@
 }
 .qv-object-PLSmartPivot .icon-plus {
     text-align:left;
-    height:12px;
-    cursor: pointer;
-    /*background-image: url("/Extensions/PLSmartPivot/plus.png");
-    background-repeat: no-repeat;*/
+    height:11px;
+    cursor: pointer;        
 }.qv-object-PLSmartPivot .icon-minus {
     text-align:left;
-    height:12px;
-    cursor: pointer;    
-    /*background-image: url("/Extensions/PLSmartPivot/minus.png");
-    background-repeat: no-repeat;*/
+    height:11px;
+    cursor: pointer;            
 }
 .qv-object-PLSmartPivot button {
 	width: 100%;
@@ -87,10 +88,11 @@
 .tooltip
 {
     position: fixed!important;
-    color: #464646;
-    background-color: #f5efcf;
+    color: #fff;
+    background-color: #000;
+    opacity:0.5;
     text-align: center;
-    border: groove;
+    /*border: groove;*/
 }
 /*end popups*/
 .row-wrapper{
@@ -138,6 +140,7 @@
     min-width:70px!important;
     max-width:70px!important;
     cursor: pointer;
+    background-color:white;
     /*padding:5px 10px;
     margin:0;*/
     }
@@ -147,7 +150,7 @@
     min-width:69px!important;
     max-width:69px!important;
     cursor: pointer;
-    
+    background-color:white;
     /*padding:5px 10px;
     margin:0;*/
     }

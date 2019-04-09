@@ -1,5 +1,6 @@
-define(["jquery",
-		"text!./css/PLSmartPivot.css"		
+var dialogBoxes;
+define(["jquery",		
+		"text!./css/PLSmartPivot.css"
 		], 
 	function(e,t) {'use strict';
 	return e("<style>").html(t).appendTo("head"),{
@@ -221,6 +222,46 @@ define(["jquery",
 										label: "Off"
 									}],
 									defaultValue: false
+								},
+								UnderlineHeader : {
+									ref : "underlineheader",
+									type : "boolean",
+									component : "switch",
+									label : "Underline Header",
+									options: [{
+										value: true,
+										label: "On"
+									}, {
+										value: false,
+										label: "Off"
+									}],
+									defaultValue: false							
+								},
+								UnderlineWidth: {
+									type: "number",
+									component: "slider",
+									label: "Underline Width",
+									ref: "underlinewidth",
+									min: 1,
+									max: 3,
+									step: 1,
+									defaultValue: 1,
+									show : function(data) {
+										return data.underlineheader;
+									}
+								},	
+								UnderlineColor: {
+									ref: "underlinecolor",
+									label: "Underline Color",
+									type: "object",  
+									component: "color-picker",  
+									defaultValue: {  
+										index: 11,  
+										color: "#000000"  
+									},
+									show : function(data) {
+										return data.underlineheader;
+									}
 								}
 							}
 						},
@@ -256,6 +297,7 @@ define(["jquery",
 									ref : "customfile",
 									label : "Name of CSV file (; separated)",
 									type : "string",
+									expression: "optional",
 									defaultValue : "",
 									show : function(data) {
 										return data.customfilebool;
@@ -602,17 +644,35 @@ define(["jquery",
 									ref: "metricsstatus1",
 									translation: "Critic is less than",
 									type: "number",
+									expression: "optional",
 									defaultValue: -0.1	
+								},
+								colorstatus1auto : {
+									ref : "colorstatus1auto",
+									type : "boolean",
+									component : "switch",
+									label : "Critic color 1 auto",
+									options: [{
+										value: true,
+										label: "On"
+									}, {
+										value: false,
+										label: "Off"
+									}],
+									defaultValue: true
 								},
 								ColorStatus1: {
 									ref: "colorstatus1",
-									label: "Critic Color Fill",
+									label: "Critic Color fill",
 									type: "object",  
 									component: "color-picker",  
 									defaultValue: {  
 										index: 7,  
 										color: "#f93f17"  
-									}  
+									},
+									show : function(data) {
+										return data.colorstatus1auto == false;
+									}
 								},
 								ColorStatus1Text: {
 									ref: "colorstatus1text",
@@ -628,7 +688,22 @@ define(["jquery",
 									ref: "metricsstatus2",
 									translation: "Medium is less than",
 									type: "number",
+									expression: "optional",
 									defaultValue: 0	
+								},
+								colorstatus2auto : {
+									ref : "colorstatus2auto",
+									type : "boolean",
+									component : "switch",
+									label : "Critic color 2 auto",
+									options: [{
+										value: true,
+										label: "On"
+									}, {
+										value: false,
+										label: "Off"
+									}],
+									defaultValue: true
 								},
 								ColorStatus2: {
 									ref: "colorstatus2",
@@ -638,7 +713,10 @@ define(["jquery",
 									defaultValue: {  
 										index: 8,  
 										color: "#ffcf02"  
-									}  
+									},
+									show : function(data) {
+										return data.colorstatus2auto == false;
+									}
 								},
 								ColorStatus2Text: {
 									ref: "colorstatus2text",
@@ -650,6 +728,20 @@ define(["jquery",
 										color: "#000000"  
 									}  
 								},
+								colorstatus3auto : {
+									ref : "colorstatus3auto",
+									type : "boolean",
+									component : "switch",
+									label : "Critic color 3 auto",
+									options: [{
+										value: true,
+										label: "On"
+									}, {
+										value: false,
+										label: "Off"
+									}],
+									defaultValue: true
+								},
 								ColorStatus3: {
 									ref: "colorstatus3",
 									label: "Success Color Fill",
@@ -658,7 +750,10 @@ define(["jquery",
 									defaultValue: {  
 										index: 9,  
 										color: "#276e27"  
-									}  
+									},
+									show : function(data) {
+										return data.colorstatus3auto == false;
+									}
 								},
 								ColorStatus3Text: {
 									ref: "colorstatus3text",
@@ -814,10 +909,13 @@ define(["jquery",
 		},
 		controller:[
 			"$scope",
-			"$timeout",
-			function(e,t){}
+			"$timeout",			
+			function(e,t){
+				//dialogBoxes = document.getElementsByClassName('lui-list__item');
+				dialogBoxes = document.getElementsByClassName('qv-object-header');								
+			}
 		],
-		paint : function(t,a) {
+		paint : function(t,a) {			
 			var isIE = /*@cc_on!@*/false || !!document.documentMode;
 			var isChrome = window.chrome;//!!window.chrome && !!window.chrome.webstore;
 			var isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
@@ -828,6 +926,7 @@ define(["jquery",
 			
 			var sufixCells = "";
 			var sufixWrap = "";
+			
 			switch (this.backendApi.model.layout.columnwidthslider) {
 				case 1:
 				sufixCells += '-s';
@@ -957,8 +1056,22 @@ define(["jquery",
 			
 			var vLetterSize = 0;
 			var vLetterSizeHeader = 0;
-			var vApplyFootTags = this.backendApi.model.layout.applyfoottags;
-
+			var vApplyFootTags = this.backendApi.model.layout.applyfoottags;			
+			
+			var UnderlineHeader = false;
+			var UnderlineWidth = 1;
+			var UnderlineColor = 'black';
+			
+			if(this.backendApi.model.layout.underlineheader != undefined){				
+				UnderlineHeader = this.backendApi.model.layout.underlineheader;				
+			}
+			if(this.backendApi.model.layout.underlinewidth != undefined){				
+				UnderlineWidth = this.backendApi.model.layout.underlinewidth;
+			}
+			if(this.backendApi.model.layout.underlinecolor != undefined){				
+				UnderlineColor = this.backendApi.model.layout.underlinecolor.color;
+			}
+			
 			switch (this.backendApi.model.layout.lettersizeheader)
 			{
 				case 1:
@@ -1006,7 +1119,19 @@ define(["jquery",
 			
 			var vAllMetrics = this.backendApi.model.layout.allmetrics;
 			var MetricsAffectedMatrix = JSON.parse("[" + this.backendApi.model.layout.metricssemaphore + "]");				
-						
+			
+			var vColorMetric1Auto = this.backendApi.model.layout.colorstatus1auto;
+			if(vColorMetric1Auto == 'undefined'){
+				vColorMetric1Auto = false;
+			}
+			var vColorMetric2Auto = this.backendApi.model.layout.colorstatus2auto;
+			if(vColorMetric2Auto == 'undefined'){
+				vColorMetric2Auto = false;
+			}
+			var vColorMetric3Auto = this.backendApi.model.layout.colorstatus3auto;
+			if(vColorMetric3Auto == 'undefined'){
+				vColorMetric3Auto = false;
+			}
 			var vColorMetric1 = this.backendApi.model.layout.colorstatus1.color;
 			var vColorMetric2 = this.backendApi.model.layout.colorstatus2.color;
 			var vColorMetric3 = this.backendApi.model.layout.colorstatus3.color;
@@ -1075,7 +1200,11 @@ define(["jquery",
 			
 			var nRows = this.backendApi.getRowCount();
 			
-			f += "<div class='header-wrapper'> <table class='header'><tr>";
+			var vUnderline = "";
+			if(UnderlineHeader){
+				vUnderline = "style='border-bottom:" + UnderlineWidth + "px solid " + UnderlineColor + "'";
+			}
+			f += "<div class='header-wrapper' " + vUnderline + "> <table class='header'><tr>";
 			
 			
 			//render titles
@@ -1094,7 +1223,7 @@ define(["jquery",
 						vExcelButtonCode = "";					 
 					}
 					
-					f += '<th class="fdim-cells" style="cursor:default;color:' + vHeaderColorText + ';font-family:' + vFontFamily + ';background-color:' + vHeaderColorSchema + ';font-size:' + (17 + vLetterSizeHeader) + 'px;height:70px;width:230px;vertical-align:middle;text-align:' + vHeaderAlignText + '">' + vExcelButtonCode + t.qFallbackTitle + '</th>';
+					f += '<th class="fdim-cells" style="cursor:default;color:' + vHeaderColorText + ';font-family:' + vFontFamily + ';background-color:' + vHeaderColorSchema + ';font-size:' + (17 + vLetterSizeHeader) + 'px;border-radius:5px 5px 0px 0px;height:70px;width:230px;vertical-align:middle;text-align:' + vHeaderAlignText + '">' + vExcelButtonCode + t.qFallbackTitle + '</th>';
 			
 				}
 			});
@@ -1149,7 +1278,7 @@ define(["jquery",
 					}else{
 						sufixWrap = 'Empty';
 					}
-					f += '<th class="grid-cells2' + sufixCells + '" style="cursor:default' + ';color:' + vHeaderColorText +';font-family:' + vFontFamily + ';background-color:' + vHeaderColorSchema + ';font-size:' + (15 + vLetterSizeHeader) + 'px;height:70px;vertical-align:middle;text-align:' + vHeaderAlignText + '"><span class = "wrapclass' + sufixWrap + '" style="font-family:' + vFontFamily + '">' + t.qFallbackTitle + vExtraLabel + '</span></th>';
+					f += '<th class="grid-cells2' + sufixCells + '" style="cursor:default' + ';color:' + vHeaderColorText +';font-family:' + vFontFamily + ';background-color:' + vHeaderColorSchema + ';font-size:' + (15 + vLetterSizeHeader) + 'px;border-radius:5px 5px 0px 0px;height:70px;vertical-align:middle;text-align:' + vHeaderAlignText + '"><span class = "wrapclass' + sufixWrap + '" style="font-family:' + vFontFamily + '">' + t.qFallbackTitle + vExtraLabel + '</span></th>';
 				}
 			});
 									
@@ -1249,14 +1378,14 @@ define(["jquery",
 						vExcelButtonCode = "";					 
 					}					
 					
-					f += '<th class="fdim-cells" rowspan="2" padding-left="20px" style="cursor:default;color:' + vHeaderColorText +';font-family:' + vFontFamily + ';background-color:' + vHeaderColorSchema + ';font-size:' + (16 + vLetterSizeHeader) + 'px;height:80px;width:230px;vertical-align:middle;text-align:' + vHeaderAlignText + '">' + vExcelButtonCode +LabelsArray[0] + '</th>';
+					f += '<th class="fdim-cells" rowspan="2" padding-left="20px" style="cursor:default;color:' + vHeaderColorText +';font-family:' + vFontFamily + ';background-color:' + vHeaderColorSchema + ';font-size:' + (16 + vLetterSizeHeader) + 'px;border-radius:5px 5px 0px 0px;height:80px;width:230px;vertical-align:middle;text-align:' + vHeaderAlignText + '">' + vExcelButtonCode +LabelsArray[0] + '</th>';
 				
 					for (var nSecond=0;nSecond<SecondHeaderLength;nSecond++){//second dimension header
 						if(vSeparatorCols && nSecond > 0){						
 							f += '<th class = "empty" style="color:white' + ';font-family:' + vFontFamily + ';font-size:' + (13 + vLetterSizeHeader) + 'px">' + '*' + '</th>';
 						}
 						
-						f += '<th class="grid-cells2' + sufixCells + '" colspan="' + measure_count + '"; style="color:' + vHeaderColorText +';font-family:' + vFontFamily + ';background-color:' + vHeaderColorSchema + ';font-size:' + (14 + vLetterSizeHeader) + 'px;height:45px;vertical-align:middle;text-align:' + vHeaderAlignText + '">' + SecondHeader[nSecond] + '</th>';
+						f += '<th class="grid-cells2' + sufixCells + '" colspan="' + measure_count + '"; style="color:' + vHeaderColorText +';font-family:' + vFontFamily + ';background-color:' + vHeaderColorSchema + ';font-size:' + (14 + vLetterSizeHeader) + 'px;border-radius:5px 5px 0px 0px;height:45px;vertical-align:middle;text-align:' + vHeaderAlignText + '">' + SecondHeader[nSecond] + '</th>';
 					}
 					f += "</tr>";
 										
@@ -1268,9 +1397,9 @@ define(["jquery",
 						for (var nMeas=1;nMeas<=measure_count;nMeas++){
 							nMeasAux = nMeas - 1;
 							if (MeasuresFormat[nMeasAux].substring(MeasuresFormat[nMeasAux].length - 1) == '%') {
-								f += '<th class="grid-cells2-small' + sufixCells + '" style="cursor:default' + ';color:' + vHeaderColorText +';font-family:' + vFontFamily + ';background-color:' + vHeaderColorSchema + ';font-size:' + (13 + vLetterSizeHeader) + 'px;height:25px;vertical-align:middle;text-align:' + vHeaderAlignText + '"><span class = "wrapclass25">' + LabelsArray[nMeas] + ExtraLabelsArray[nMeas - 1] + '</span></th>';
+								f += '<th class="grid-cells2-small' + sufixCells + '" style="cursor:default' + ';color:' + vHeaderColorText +';font-family:' + vFontFamily + ';background-color:' + vHeaderColorSchema + ';font-size:' + (13 + vLetterSizeHeader) + 'px;border-radius:5px 5px 0px 0px;height:25px;vertical-align:middle;text-align:' + vHeaderAlignText + '"><span class = "wrapclass25">' + LabelsArray[nMeas] + ExtraLabelsArray[nMeas - 1] + '</span></th>';
 							}else{
-								f += '<th class="grid-cells2' + sufixCells + '" style="cursor:default' + ';color:' + vHeaderColorText +';font-family:' + vFontFamily + ';background-color:' + vHeaderColorSchema + ';font-size:' + (14 + vLetterSizeHeader) + 'px;height:25px;vertical-align:middle;text-align:' + vHeaderAlignText + '"><span class = "wrapclass25">' + LabelsArray[nMeas] + ExtraLabelsArray[nMeas - 1] + '</span></th>';
+								f += '<th class="grid-cells2' + sufixCells + '" style="cursor:default' + ';color:' + vHeaderColorText +';font-family:' + vFontFamily + ';background-color:' + vHeaderColorSchema + ';font-size:' + (14 + vLetterSizeHeader) + 'px;border-radius:5px 5px 0px 0px;height:25px;vertical-align:middle;text-align:' + vHeaderAlignText + '"><span class = "wrapclass25">' + LabelsArray[nMeas] + ExtraLabelsArray[nMeas - 1] + '</span></th>';
 							}
 						}
 					}
@@ -1282,7 +1411,7 @@ define(["jquery",
 						vExcelButtonCode = "";					 
 					}
 					
-					f += '<th class="fdim-cells" style="cursor:default;color:' + vHeaderColorText +';background-color:' + vHeaderColorSchema + ';font-family:' + vFontFamily + ';font-size:' + (16 + vLetterSizeHeader) + 'px;height:70px;width:230px;vertical-align:middle;text-align:' + vHeaderAlignText + '">' + vExcelButtonCode +LabelsArray[0] + ExtraLabelsArray[0] + '</th>';
+					f += '<th class="fdim-cells" style="cursor:default;color:' + vHeaderColorText +';background-color:' + vHeaderColorSchema + ';font-family:' + vFontFamily + ';font-size:' + (16 + vLetterSizeHeader) + 'px;border-radius:5px 5px 0px 0px;height:70px;width:230px;vertical-align:middle;text-align:' + vHeaderAlignText + '">' + vExcelButtonCode +LabelsArray[0] + ExtraLabelsArray[0] + '</th>';
 					
 					for (var nSecond=0;nSecond<SecondHeaderLength;nSecond++){
 						if(vSeparatorCols && nSecond > 0){
@@ -1294,7 +1423,7 @@ define(["jquery",
 						}else{
 							sufixWrap = 'Empty';
 						}
-						f += '<th class="grid-cells2' + sufixCells + '" style="color:' + vHeaderColorText +';background-color:' + vHeaderColorSchema + ';font-family:' + vFontFamily + ';font-size:' + (14 + vLetterSizeHeader) + 'px;height:70px' + ';vertical-align:middle;text-align:' + vHeaderAlignText + '"><span class = "wrapclass' + sufixWrap + '" style="font-family:' + vFontFamily + '">' + SecondHeader[nSecond] + '</span></th>';
+						f += '<th class="grid-cells2' + sufixCells + '" style="color:' + vHeaderColorText +';background-color:' + vHeaderColorSchema + ';font-family:' + vFontFamily + ';font-size:' + (14 + vLetterSizeHeader) + 'px;border-radius:5px 5px 0px 0px;height:70px' + ';vertical-align:middle;text-align:' + vHeaderAlignText + '"><span class = "wrapclass' + sufixWrap + '" style="font-family:' + vFontFamily + '">' + SecondHeader[nSecond] + '</span></th>';
 					}
 				}
 				
@@ -1471,6 +1600,11 @@ define(["jquery",
 								vComas += vGlobalComas;
 								break;
 
+								case 'UNDERLINECOLOR':
+								ApplyUnderline(vCustomAttribute,vComas);
+								vComas += vGlobalComas;
+								break;
+
 								case 'EXP1BACKGROUND':
 								ApplyExp1BackgroundColor(vCustomAttribute,vComas);
 								vComas += vGlobalComas;
@@ -1625,8 +1759,7 @@ define(["jquery",
 						if (vColumnText.substring(0, 1) == '%') {
 							vColumnNum = ApplyPreMask('0,00%', ConceptMatrix[nmrows][nMeasures2]);
 							vSpecialF = '0,00%';
-						}else{
-							
+						}else{							
 							switch (MeasuresFormat[nMeasures2 - 1].substr(MeasuresFormat[nMeasures2 - 1].length - 1))
 							{
 								case 'k':
@@ -1678,22 +1811,31 @@ define(["jquery",
 							vColumnNum = ".";
 						}
 						// apply the semaphore styles where needed
+						vColorSemaphore = '';
+						vColorSemaphoreText = '';
+						
 						if ((vAllSemaphores || ConceptsAffectedMatrix.indexOf(vColumnText) >= 0) && (vAllMetrics || MetricsAffectedMatrix.indexOf(nMeasures2)>=0) && !isNaN(ConceptMatrix[nmrows][nMeasures2]) && vGlobalComment == 0) {
 							if (ConceptMatrix[nmrows][nMeasures2] < vCritic) {
-								vColorSemaphore = vColorMetric1;
-								vColorSemaphoreText = vColorMetric1Text;
+								if(!vColorMetric1Auto){
+									vColorSemaphore = ';background-color:' + vColorMetric1;
+								}
+								vColorSemaphoreText = ';color:' + vColorMetric1Text;
 							}else{
 								if (ConceptMatrix[nmrows][nMeasures2] < vMMedium) {
-									vColorSemaphore = vColorMetric2;
-									vColorSemaphoreText = vColorMetric2Text;
+									if(!vColorMetric2Auto){
+										vColorSemaphore = ';background-color:' + vColorMetric2;
+									}
+									vColorSemaphoreText = ';color:' + vColorMetric2Text;
 								}else{
-									vColorSemaphore = vColorMetric3;
-									vColorSemaphoreText = vColorMetric3Text;
+									if(!vColorMetric3Auto){
+										vColorSemaphore = ';background-color:' + vColorMetric3;
+									}
+									vColorSemaphoreText = ';color:' + vColorMetric3Text;
 								}
 							}
 							//aquí mismito es donde aplico los styletags de las measures
 							//tengo que crear nuevas columnas en el template para añadir black y color de measures							
-							f += '<td  class="grid-cells' + sufixCells + '" style ="font-family:' + vFontFamily + vFontSize + ';color:' + vColorSemaphoreText + ';background-color:' + vColorSemaphore + ';text-align:right;padding-left:4px">' + vColumnNum + '</td>';
+							f += '<td  class="grid-cells' + sufixCells + '" style ="font-family:' + vFontFamily + vFontSize + StyleTags + vColorSemaphoreText + vColorSemaphore + ';text-align:right;padding-left:4px">' + vColumnNum + '</td>';
 						}else{
 							var styleName = 'StyleTags' + nMeasures2;							
 							f += '<td  class="grid-cells' + sufixCells + '" style ="font-family:' + vFontFamily + vFontSize + ';' + eval(styleName) + ';text-align:right;padding-left:4px">' + vColumnNum + '</td>';
@@ -1780,6 +1922,11 @@ define(["jquery",
 
 								case 'ALIGN':
 								ApplyAlignment(vCustomAttribute2,vComas);
+								vComas += vGlobalComas;
+								break;
+
+								case 'UNDERLINECOLOR':
+								ApplyUnderline(vCustomAttribute2,vComas);
 								vComas += vGlobalComas;
 								break;
 
@@ -1876,7 +2023,8 @@ define(["jquery",
 								default:
 								
 								break;
-							}			
+							}	
+
 						}
 						if (vGlobalFontSize == 0) {
 							if (vComas > 0) {
@@ -1985,44 +2133,56 @@ define(["jquery",
 						}
 						
 						if(vSeparatorCols && nMeasure7 == (measure_count+1)){
-							f += '<th class = "empty" style="color:white' + ';font-family:' + vFontFamily + ';font-size:' + (12 + vLetterSize) + 'px">' + '*' + '</th>';
+							f += '<th class = "empty" style="color:white' + ';font-family:' + vFontFamily + ';font-size:' + (12 + vLetterSize) + 'px">' + '*' + '</th>';							
 							nMeasure7 = 1;
-							
-						}
-						if(nMeasure72 == (measure_count - 1)){
-							nMeasure72 = -1;
-							nMeasure72Semaphore = measure_count;
 						}else{
-							nMeasure72Semaphore = nMeasure72 + 1;
+							if(nMeasure7 == (measure_count+1)){
+								nMeasure7 = 1;
+							}else{
+								if(nMeasure72 == (measure_count - 1)){
+									nMeasure72 = -1;
+									nMeasure72Semaphore = measure_count;
+								}else{
+									nMeasure72Semaphore = nMeasure72 + 1;
+								}
+							}
 						}
 						
 						// apply the semaphores where needed
 						if (vGlobalComment ==  1) {
 							vColumnNum = ".";
 						}
+						vColorSemaphore = '';
+						vColorSemaphoreText = '';
+						
 						if ((vAllSemaphores || ConceptsAffectedMatrix.indexOf(vColumnText) >= 0) && (vAllMetrics || MetricsAffectedMatrix.indexOf(nMeasure72Semaphore)>=0) && !isNaN(ConceptMatrixPivot[nmrows2][nMeasures22]) && vGlobalComment == 0) {
 							if (ConceptMatrixPivot[nmrows2][nMeasures22] < vCritic) {
-								vColorSemaphore = vColorMetric1;
-								vColorSemaphoreText = vColorMetric1Text;
+								if(!vColorMetric1Auto){
+									vColorSemaphore = ';background-color:' + vColorMetric1;
+								}
+								vColorSemaphoreText = ';color:' + vColorMetric1Text;
 							}else{
 								if (ConceptMatrixPivot[nmrows2][nMeasures22] < vMMedium) {
-									vColorSemaphore = vColorMetric2;
-									vColorSemaphoreText = vColorMetric2Text;
+									if(!vColorMetric2Auto){
+										vColorSemaphore = ';background-color:' + vColorMetric2;
+									}
+									vColorSemaphoreText = ';color:' + vColorMetric2Text;
 								}else{
-									vColorSemaphore = vColorMetric3;
-									vColorSemaphoreText = vColorMetric3Text;
+									if(!vColorMetric3Auto){
+										vColorSemaphore = ';background-color:' + vColorMetric3;
+									}
+									vColorSemaphoreText = ';color:' + vColorMetric3Text;
 								}
 							}
 							
 							if (vSpecialF.substring(vSpecialF.length - 1) == '%' && vNumMeasures > 1) {
-								f += '<td class="grid-cells-small' + sufixCells + '" style ="font-family:' + vFontFamily + vFontSize + ';color:' + vColorSemaphoreText + ';background-color:' + vColorSemaphore + ';text-align:right;padding-left:4px">' + vColumnNum + '</td>';
+								f += '<td class="grid-cells-small' + sufixCells + '" style ="font-family:' + vFontFamily + vFontSize + StyleTags + vColorSemaphoreText + vColorSemaphore + ';text-align:right;padding-left:4px">' + vColumnNum + '</td>';
 							}else{
-								f += '<td class="grid-cells' + sufixCells + '" style ="font-family:' + vFontFamily + vFontSize + ';color:' + vColorSemaphoreText + ';background-color:' + vColorSemaphore + ';text-align:right;padding-left:4px">' + vColumnNum + '</td>';
+								f += '<td class="grid-cells' + sufixCells + '" style ="font-family:' + vFontFamily + vFontSize + StyleTags + vColorSemaphoreText + vColorSemaphore + ';text-align:right;padding-left:4px">' + vColumnNum + '</td>';
 							}
 						}else{
 							
-							var styleName = 'StyleTags' + nMeasure7;							
-							//f += '<td  class="grid-cells' + sufixCells + '" style ="font-family:' + vFontFamily + vFontSize + ';' + eval(styleName) + ';text-align:right;padding-left:4px">' + vColumnNum + '</td>';
+							var styleName = 'StyleTags' + nMeasure7;														
 							if (vSpecialF.substring(vSpecialF.length - 1) == '%' && vNumMeasures > 1) {
 								f += '<td class="grid-cells-small' + sufixCells + '" style ="font-family:' + vFontFamily + ';' + eval(styleName) + ';text-align:right;padding-right:4px">' + vColumnNum + '</td>';
 							}else{
@@ -2076,7 +2236,7 @@ define(["jquery",
 		        ),
 			
 			//on hover popup with cell value, only in headers
-			e(".header-wrapper th").hover(function (){
+			/*e(".header-wrapper th").hover(function (){
 				
 			    e(".tooltip").delay(500).show(0);	
 			    e(".header-wrapper th").children(".tooltip").remove(); 
@@ -2098,7 +2258,7 @@ define(["jquery",
 			},function () {
     				e(".tooltip").delay(0).hide(0);				
 			 }			  
-			),
+			),*/
 			
 			//allow making selections inside the table
 			e(".data-table td").on("click",function(){
@@ -2169,12 +2329,12 @@ define(["jquery",
 			}),
 			//allow selections in desc dimension cells
 			e(".kpi-table td").on("click",function(){	
-				if (self.backendApi.model.layout.filteroncellclick == false)					
-					return;
+				/*if (self.backendApi.model.layout.filteroncellclick == false)					
+					return;*/
 				var indextr = e(this).parent().parent().children().index(e(this).parent()); //identifica la row	
 				var SelectRow = 0;
 				SelectRow = ConceptMatrixRowElem[(indextr)];				
-				if(!vIconPlus && !vIconMinus){										
+				if(!vIconPlus && !vIconMinus && self.backendApi.model.layout.filteroncellclick){										
 					self.backendApi.selectValues(0,[SelectRow],false);
 					e(this).toggleClass("selected");
 				}else{
@@ -2638,68 +2798,56 @@ define(["jquery",
 					break;
 				}
 			}
-			function ApplyFontSize(vCustomAttributes,vCustomComas){
+			function ApplyFontSize(vCustomAttributes,vCustomComas){				
 				var vPuntoComa = '';
 				if (vCustomComas>0) {
 					vPuntoComa = ';';
 				}
+				var vBaseSize = 14;
 				switch (vCustomAttributes)
 				{
 					case '<large>':
-					StyleTags += vPuntoComa + 'font-size:' + (15 + vLetterSize) + 'px';
-					StyleTags1 += vPuntoComa + 'font-size:' + (15 + vLetterSize) + 'px';
-					StyleTags2 += vPuntoComa + 'font-size:' + (15 + vLetterSize) + 'px';
-					StyleTags3 += vPuntoComa + 'font-size:' + (15 + vLetterSize) + 'px';
-					StyleTags4 += vPuntoComa + 'font-size:' + (15 + vLetterSize) + 'px';
-					StyleTags5 += vPuntoComa + 'font-size:' + (15 + vLetterSize) + 'px';
-					StyleTags6 += vPuntoComa + 'font-size:' + (15 + vLetterSize) + 'px';
-					StyleTags7 += vPuntoComa + 'font-size:' + (15 + vLetterSize) + 'px';
-					StyleTags8 += vPuntoComa + 'font-size:' + (15 + vLetterSize) + 'px';
-					StyleTags9 += vPuntoComa + 'font-size:' + (15 + vLetterSize) + 'px';
-					vFontSize = ';font-size:' + (15 + vLetterSize) + 'px';
+					vBaseSize = 15;
+					
 					vGlobalComas = 1;
 					vGlobalComas2 = 1;
 					vGlobalFontSize = 1;
 					break;
 						
 					case '<medium>':
-					StyleTags += vPuntoComa + 'font-size:' + (14 + vLetterSize)+ 'px';
-					StyleTags1 += vPuntoComa + 'font-size:' + (14 + vLetterSize)+ 'px';
-					StyleTags2 += vPuntoComa + 'font-size:' + (14 + vLetterSize)+ 'px';
-					StyleTags3 += vPuntoComa + 'font-size:' + (14 + vLetterSize)+ 'px';
-					StyleTags4 += vPuntoComa + 'font-size:' + (14 + vLetterSize)+ 'px';
-					StyleTags5 += vPuntoComa + 'font-size:' + (14 + vLetterSize)+ 'px';
-					StyleTags6 += vPuntoComa + 'font-size:' + (14 + vLetterSize)+ 'px';
-					StyleTags7 += vPuntoComa + 'font-size:' + (14 + vLetterSize)+ 'px';
-					StyleTags8 += vPuntoComa + 'font-size:' + (14 + vLetterSize)+ 'px';
-					StyleTags9 += vPuntoComa + 'font-size:' + (14 + vLetterSize)+ 'px';
-					vFontSize = ';font-size:' + (14 + vLetterSize) + 'px';
+					vBaseSize = 14;
+					
 					vGlobalComas = 1;
 					vMedium == true;
 					vGlobalFontSize = 1;
 					break;
 							
 					case '<small>':
-					StyleTags += vPuntoComa + 'font-size:' + (13 + vLetterSize)+ 'px';
-					StyleTags1 += vPuntoComa + 'font-size:' + (13 + vLetterSize)+ 'px';
-					StyleTags2 += vPuntoComa + 'font-size:' + (13 + vLetterSize)+ 'px';
-					StyleTags3 += vPuntoComa + 'font-size:' + (13 + vLetterSize)+ 'px';
-					StyleTags4 += vPuntoComa + 'font-size:' + (13 + vLetterSize)+ 'px';
-					StyleTags5 += vPuntoComa + 'font-size:' + (13 + vLetterSize)+ 'px';
-					StyleTags6 += vPuntoComa + 'font-size:' + (13 + vLetterSize)+ 'px';
-					StyleTags7 += vPuntoComa + 'font-size:' + (13 + vLetterSize)+ 'px';
-					StyleTags8 += vPuntoComa + 'font-size:' + (13 + vLetterSize)+ 'px';
-					StyleTags9 += vPuntoComa + 'font-size:' + (13 + vLetterSize)+ 'px';
-					vFontSize = ';font-size:' + (13 + vLetterSize) + 'px';
+					vBaseSize = 13;
+					
 					vGlobalComas = 1;
 					//vGlobalComas2 = 1;
 					vGlobalFontSize = 1;
 					break;
 				
 					default:
-					StyleTags += '';	
+					vBaseSize = 14;
+					
+					vGlobalFontSize = 0;
 					break;
 				}
+				vGlobalComas = 1;
+				StyleTags += vPuntoComa + 'font-size:' + (vBaseSize + vLetterSize)+ 'px';
+				StyleTags1 += vPuntoComa + 'font-size:' + (vBaseSize + vLetterSize)+ 'px';
+				StyleTags2 += vPuntoComa + 'font-size:' + (vBaseSize + vLetterSize)+ 'px';
+				StyleTags3 += vPuntoComa + 'font-size:' + (vBaseSize + vLetterSize)+ 'px';
+				StyleTags4 += vPuntoComa + 'font-size:' + (vBaseSize + vLetterSize)+ 'px';
+				StyleTags5 += vPuntoComa + 'font-size:' + (vBaseSize + vLetterSize)+ 'px';
+				StyleTags6 += vPuntoComa + 'font-size:' + (vBaseSize + vLetterSize)+ 'px';
+				StyleTags7 += vPuntoComa + 'font-size:' + (vBaseSize + vLetterSize)+ 'px';
+				StyleTags8 += vPuntoComa + 'font-size:' + (vBaseSize + vLetterSize)+ 'px';
+				StyleTags9 += vPuntoComa + 'font-size:' + (vBaseSize + vLetterSize)+ 'px';
+				vFontSize = ';font-size:' + (vBaseSize + vLetterSize) + 'px';
 			}
 			function ApplyAlignment(vCustomAttributes,vCustomComas){
 				var vPuntoComa = '';
@@ -2728,6 +2876,27 @@ define(["jquery",
 					break;
 				}
 			}
+
+			function ApplyUnderline(vCustomAttributes,vCustomComas){
+				var vPuntoComa = '';
+				if (vCustomComas>0) {
+					vPuntoComa = ';';
+				}
+				if (vCustomAttributes.substring(0, 1) == '#' || vCustomAttributes.substring(0, 3).toUpperCase() == 'RGB') {
+					StyleTags += vPuntoComa + 'border-bottom:1px solid ' + vCustomAttributes;
+					StyleTags1 += vPuntoComa + 'border-bottom:1px solid ' + vCustomAttributes;
+					StyleTags2 += vPuntoComa + 'border-bottom:1px solid ' + vCustomAttributes;
+					StyleTags3 += vPuntoComa + 'border-bottom:1px solid ' + vCustomAttributes;
+					StyleTags4 += vPuntoComa + 'border-bottom:1px solid ' + vCustomAttributes;
+					StyleTags5 += vPuntoComa + 'border-bottom:1px solid ' + vCustomAttributes;
+					StyleTags6 += vPuntoComa + 'border-bottom:1px solid ' + vCustomAttributes;
+					StyleTags7 += vPuntoComa + 'border-bottom:1px solid ' + vCustomAttributes;
+					StyleTags8 += vPuntoComa + 'border-bottom:1px solid ' + vCustomAttributes;
+					StyleTags9 += vPuntoComa + 'border-bottom:1px solid ' + vCustomAttributes;
+					vGlobalComas = 1;
+				}				
+			}
+
 			function ApplyExp1BackgroundColor(vCustomAttributes,vCustomComas){				
 				var vPuntoComa = '';
 				if (vCustomComas>0) {
@@ -3544,7 +3713,7 @@ define(["jquery",
 				  x1 = x1.replace(rgx, '$1' + thousandsSep + '$2');
 				}
 				return x1 + x2;
-			};			
+			};					
 		}
 	};
 });
